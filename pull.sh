@@ -17,5 +17,12 @@ for lang in "${LANGUAGES[@]}"; do
   fi
 done
 rsync "${rsync_args[@]}" isuconapp:/home/isucon/webapp/ ./webapp/
+# Pull application code & config files
+rsync -av isuconapp:/home/isucon/env.sh ./env.sh
 rsync -av isuconapp:/etc/nginx/ ./nginx/
+rsync -av isuconapp:/etc/systemd/system/ ./systemd/
+rsync -av isuconapp:/etc/sysctl.conf ./sysctl.conf
+rsync -av isuconapp:/etc/sysctl.d/ ./sysctl.d/
+# skip if powerdns is not installed
+rsync -av --ignore-missing-args isuconapp:/etc/powerdns/ ./powerdns/
 rsync -av isucondb:/etc/mysql/ ./mysql/

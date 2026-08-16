@@ -2,12 +2,22 @@
 
 set -ue
 
-# Deploy source to remote 
+# Deploy source to remote
 rsync -av ./webapp/ isuconapp:/home/isucon/webapp/
+rsync -av ./env.sh isuconapp:/home/isucon/env.sh
 rsync -av ./nginx/ isuconapp:/etc/nginx/
+rsync -av ./systemd/ isuconapp:/etc/systemd/system/
+rsync -av ./sysctl.conf isuconapp:/etc/sysctl.conf
+rsync -av ./sysctl.d/ isuconapp:/etc/sysctl.d/
+rsync -av --ignore-missing-args ./powerdns/ isuconapp:/etc/powerdns/
 rsync -av ./mysql/ isucondb:/etc/mysql/
 rsync -av ./Makefile isuconapp:~
 rsync -av ./Makefile isucondb:~
+
+# Apply OS / middleware config
+ssh isuconapp 'sysctl --system'
+# skip if pdns.service is not installed
+ssh isuconapp 'systemctl cat pdns.service >/dev/null 2>&1 && systemctl try-restart pdns'
 
 # Restart application server and nginx
 ssh isuconapp 'make app/restart'

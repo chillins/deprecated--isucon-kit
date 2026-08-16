@@ -41,7 +41,7 @@ Host isucondb
 
 ### 3. Pull remote files
 
-リモートホストのアプリケーション、Nginx, MySQL 設定ファイルをプルしてくるセットアップシェルスクリプトを実行。
+リモートホストのアプリケーション、環境変数、Nginx / sysctl / PowerDNS / MySQL 設定ファイルをプルしてくるセットアップシェルスクリプトを実行。
 
 ```sh
 $ sh ./pull.sh
