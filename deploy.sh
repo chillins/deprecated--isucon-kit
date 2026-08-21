@@ -2,6 +2,9 @@
 
 set -ue
 
+# Build application binary before sending it to remote
+make app/build
+
 # Deploy source to remote
 rsync -av ./webapp/ isuconapp:/home/isucon/webapp/
 rsync -av ./env.sh isuconapp:/home/isucon/env.sh

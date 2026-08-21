@@ -3,6 +3,7 @@
 ## Prerequisites
 
 - rsync
+- Go (`deploy.sh` が `make app/build` を実行するため)
 
 ## Setup
 
@@ -50,7 +51,7 @@ $ sh ./install_tools.sh
 
 ### 4. Fix to restart application server
 
-Makefile の app/restart と app/build の両方を修正する。
+Makefile の app/restart と app/build の両方を修正する。app/build は `deploy.sh` から呼ばれるため、アプリの言語・ディレクトリ・バイナリ名に合わせて必ず直す。
 
 ### 5. Set secrets in GitHub Actions
 
@@ -64,15 +65,9 @@ SSH_KEY=
 
 ## Deploy
 
-### 1. Build
-
-```
-$ make app/build
-```
-
-### 2. Push & Create PR
-
 ファイルの変更を Commit & Push し、PR を作成すると自動でデプロイされる
+
+アプリケーションのビルド（`make app/build`）は `deploy.sh` の中で実行されるため、ビルド済みバイナリをコミットする必要はない。
 
 ## Analyze
 
